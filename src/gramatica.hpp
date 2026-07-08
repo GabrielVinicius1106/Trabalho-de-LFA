@@ -20,13 +20,21 @@ struct Regra {
 struct Gramatica {
     
     vector<Simbolo> terminais;
-    vector<Simbolo> naoTerminais;
+    vector<Simbolo> variaveis;
     
     Simbolo         simboloInicial;
     vector<Regra>   regras;
 
     bool ehTerminal(const Simbolo& s) const;
-    bool ehNaoTerminal(const Simbolo& s) const;
+    bool ehVariavel(const Simbolo& s) const;
+
+    void simplificar();
+
+    private:
+        void removerProducoesVazias();
+        void removerProducoesUnitarias();
+        void removerSimbolosInuteis();
+
 };
 
 #endif

@@ -15,8 +15,8 @@ void imprimirGramatica(const Gramatica& g){
     for(const auto& t : g.terminais) cout << "\'" << t << "\' ";
     cout << "\n\n";
 
-    cout << "Nao-Terminais (" << g.naoTerminais.size() << "): ";
-    for(const auto& n : g.naoTerminais) cout << "\'" << n << "\' ";
+    cout << "Variaveis (" << g.variaveis.size() << "): ";
+    for(const auto& n : g.variaveis) cout << "\'" << n << "\' ";
     cout << "\n\n";
 
     cout << "Simbolo Inicial: " << g.simboloInicial << "\n\n";
@@ -34,6 +34,8 @@ void imprimirGramatica(const Gramatica& g){
         
         cout << "\n";
     }
+
+    cout << "\n======================================================== \n" << endl;
 }
 
 int main() {
@@ -46,6 +48,10 @@ int main() {
         
         cout << "Gramatica Lida com Sucesso de: " << caminho << "\n\n";
         
+        imprimirGramatica(g);
+
+        g.simplificar();
+
         imprimirGramatica(g);
     
     } catch (const ErroLeituraGLC& e){

@@ -123,7 +123,7 @@ namespace {
 
     void validarSimboloInicial(const Gramatica& g){
         
-        if(!g.ehNaoTerminal(g.simboloInicial)){
+        if(!g.ehVariavel(g.simboloInicial)){
             throw ErroLeituraGLC("Símbolo inicial \"" + g.simboloInicial + "\" não está entre os não-terminais declarados");
         }
     }
@@ -132,12 +132,12 @@ namespace {
 
         for(const auto& regra : g.regras){
             
-            if(!g.ehNaoTerminal(regra.ler)){
+            if(!g.ehVariavel(regra.ler)){
                 throw ErroLeituraGLC("LER da regra não é um não-terminal declarado: \"" + regra.ler + "\"");
             }
 
             for(const auto& simbolo : regra.ldr){
-                if(!g.ehTerminal(simbolo) && !g.ehNaoTerminal(simbolo)){
+                if(!g.ehTerminal(simbolo) && !g.ehVariavel(simbolo)){
                     throw ErroLeituraGLC("Símbolo \"" + simbolo +
                                         "\" usado na regra de \"" + regra.ler +
                                         "\" não foi declarado como terminal nem não-terminal");
@@ -162,9 +162,9 @@ Gramatica lerArquivoGLC(const string& caminhoArquivo){
     g.terminais = lerListaDeSimbolos(arquivo, t, "símbolo terminal");
 
     int n = lerInteiroPositivo(arquivo, "quantidade de não-terminais (n)");
-    g.naoTerminais = lerListaDeSimbolos(arquivo, n, "símbolo não-terminal");
+    g.variaveis = lerListaDeSimbolos(arquivo, n, "símbolo não-terminal");
 
-    validarSimbolosDistintos(g.terminais, g.naoTerminais);
+    validarSimbolosDistintos(g.terminais, g.variaveis);
 
     g.simboloInicial = lerLinha(arquivo, "símbolo inicial");
     validarSimboloInicial(g);
