@@ -3,7 +3,7 @@ CXX = g++
 SRC_DIR = src
 OUT_DIR = out
 
-SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/leitor.cpp $(SRC_DIR)/gramatica.cpp $(SRC_DIR)/cyk.cpp
+SRC = main.cpp $(SRC_DIR)/leitor.cpp $(SRC_DIR)/gramatica.cpp $(SRC_DIR)/cyk.cpp
 BIN = $(OUT_DIR)/a
 
 all: $(BIN)

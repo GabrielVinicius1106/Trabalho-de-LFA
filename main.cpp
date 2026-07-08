@@ -1,6 +1,6 @@
-#include "gramatica.hpp"
-#include "leitor.hpp"
-#include "cyk.hpp"
+#include "src/gramatica.hpp"
+#include "src/leitor.hpp"
+#include "src/cyk.hpp"
 
 #include <iostream>
 
