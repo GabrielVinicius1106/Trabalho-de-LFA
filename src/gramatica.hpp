@@ -4,31 +4,31 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+using Simbolo = std::string;
 
-using Simbolo = string;
+using Producao = std::vector<Simbolo>;
 
-using Producao = vector<Simbolo>;
-
-inline const string SIMBOLO_VAZIO = "&";
+inline const std::string SIMBOLO_VAZIO = "&";
 
 struct Regra {
-    Simbolo  ler;   // Lado Esquerdo da Regra - Símbolo
-    Producao ldr;   // Lado Direito da Regra  - Produção
+    Simbolo  esq;   // Lado Esquerdo da Regra - Símbolo
+    Producao dir;   // Lado Direito da Regra  - Produção
 };
 
 struct Gramatica {
     
-    vector<Simbolo> terminais;
-    vector<Simbolo> variaveis;
+    std::vector<Simbolo> terminais;
+    std::vector<Simbolo> variaveis;
     
-    Simbolo         simboloInicial;
-    vector<Regra>   regras;
+    Simbolo              simboloInicial;
+    std::vector<Regra>   regras;
 
     bool ehTerminal(const Simbolo& s) const;
     bool ehVariavel(const Simbolo& s) const;
 
     void simplificar();
+
+    void converterParaChomsky();
 
     private:
         void removerProducoesVazias();

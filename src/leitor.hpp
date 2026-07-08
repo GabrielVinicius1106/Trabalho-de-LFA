@@ -12,6 +12,8 @@ public:
     explicit ErroLeituraGLC(const string& msg) : runtime_error(msg) {}
 };
 
+vector<Simbolo> lerPalavra();
+
 Gramatica lerArquivoGLC(const string& caminhoArquivo);
 
 #endif

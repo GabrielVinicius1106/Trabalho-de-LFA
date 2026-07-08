@@ -2,6 +2,6 @@
 
 - [X] Ler Arquivo .glc
 - [X] Simplificar Gramática
-- [ ] Converter p/ Chomsky
-- [ ] Aplicar CYK
+- [X] Converter p/ Chomsky
+- [X] Aplicar CYK
 - [ ] Criar Interface para Validar Palavra

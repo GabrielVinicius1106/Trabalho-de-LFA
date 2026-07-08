@@ -1,11 +1,10 @@
 #include "leitor.hpp"
 
 #include <algorithm>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <unordered_set>
-
-using namespace std;
 
 namespace {
 
@@ -80,7 +79,7 @@ namespace {
 
         istringstream stream(linha);
         Regra regra;
-        stream >> regra.ler;
+        stream >> regra.esq;
 
         vector<Simbolo> ldr;
         Simbolo token;
@@ -93,11 +92,11 @@ namespace {
             ldr.clear();
         }
 
-        regra.ldr = move(ldr);
+        regra.dir = move(ldr);
         return regra;
     }
 
-    void validarSimbolosDistintos(const vector<Simbolo>& terminais, const vector<Simbolo>& naoTerminais){
+    void validarSimbolosDistintos(const vector<Simbolo>& terminais, const vector<Simbolo>& variaveis){
 
         unordered_set<Simbolo> vistos;
 
@@ -109,7 +108,7 @@ namespace {
 
         }
 
-        for(const auto& n : naoTerminais){
+        for(const auto& n : variaveis){
             
             if(vistos.count(n)){
                 throw ErroLeituraGLC("Símbolo \"" + n + "\" aparece como terminal e não-terminal");
@@ -132,20 +131,37 @@ namespace {
 
         for(const auto& regra : g.regras){
             
-            if(!g.ehVariavel(regra.ler)){
-                throw ErroLeituraGLC("LER da regra não é um não-terminal declarado: \"" + regra.ler + "\"");
+            if(!g.ehVariavel(regra.esq)){
+                throw ErroLeituraGLC("LER da regra não é um não-terminal declarado: \"" + regra.esq + "\"");
             }
 
-            for(const auto& simbolo : regra.ldr){
+            for(const auto& simbolo : regra.dir){
                 if(!g.ehTerminal(simbolo) && !g.ehVariavel(simbolo)){
                     throw ErroLeituraGLC("Símbolo \"" + simbolo +
-                                        "\" usado na regra de \"" + regra.ler +
+                                        "\" usado na regra de \"" + regra.esq +
                                         "\" não foi declarado como terminal nem não-terminal");
                 }
             }
         }
     }
 
+}
+
+std::vector<Simbolo> lerPalavra(){
+
+    int n;
+
+    std::cout << "\n Insira o Tamanho da Palavra: ";
+    std::cin >> n;
+
+    std::vector<Simbolo> s;
+
+    std::cout << "\n Insira a Palavra: ";
+    for(int i = 0; i < n; i++){
+        std::cin >> s[i];
+    }
+    
+    return s;
 }
 
 Gramatica lerArquivoGLC(const string& caminhoArquivo){

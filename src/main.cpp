@@ -1,14 +1,12 @@
 #include "gramatica.hpp"
 #include "leitor.hpp"
+#include "cyk.hpp"
 
 #include <iostream>
 
 using namespace std;
 
-// Imprime a gramática de forma legível, só para conferência manual
-// durante o desenvolvimento (vai ser útil também mais pra frente,
-// pra comparar a gramática ORIGINAL com a versão em CNF).
-
+// Imprime a Gramática
 void imprimirGramatica(const Gramatica& g){
     
     cout << "Terminais (" << g.terminais.size() << "): ";
@@ -24,12 +22,12 @@ void imprimirGramatica(const Gramatica& g){
     cout << "Regras (" << g.regras.size() << "):\n";
     for(const auto& regra : g.regras){
 
-        cout << "  " << regra.ler << " -> ";
+        cout << "  " << regra.esq << " -> ";
         
-        if(regra.ldr.empty()){
+        if(regra.dir.empty()){
             cout << SIMBOLO_VAZIO << " (epsilon)";
         } else {
-            for(const auto& simbolo : regra.ldr) cout << simbolo << " ";
+            for(const auto& simbolo : regra.dir) cout << simbolo << " ";
         }
         
         cout << "\n";
@@ -48,11 +46,33 @@ int main() {
         
         cout << "Gramatica Lida com Sucesso de: " << caminho << "\n\n";
         
+        cout << "GRAMATICA ORIGINAL \n\n";
+
         imprimirGramatica(g);
 
         g.simplificar();
+        
+        cout << "GRAMATICA SIMPLIFICADA \n\n";
 
         imprimirGramatica(g);
+
+        g.converterParaChomsky();
+        
+        cout << "GRAMATICA NA FORMA NORMAL DE CHOMSKY \n\n";
+
+        imprimirGramatica(g);
+
+        cout << " Insira o Tamanho da Palavra: ";
+        int n; cin >> n;
+
+        std:vector<Simbolo> simbols(n);
+
+        cout << " Insira a Palavra (com espaçamento entre simbolos): ";
+        for(int i = 0; i < n; i++){
+            cin >> simbols[i];
+        }
+
+        executarCYK(g, simbols);
     
     } catch (const ErroLeituraGLC& e){
         
