@@ -41,38 +41,122 @@ int main() {
     string caminho = "data/exemplo.glc";
 
     try {
-        
+
         Gramatica g = lerArquivoGLC(caminho);
         
-        cout << "Gramatica Lida com Sucesso de: " << caminho << "\n\n";
         
-        cout << "GRAMATICA ORIGINAL \n\n";
-
-        imprimirGramatica(g);
-
-        g.simplificar();
+        vector<int> seq;
         
-        cout << "GRAMATICA SIMPLIFICADA \n\n";
-
-        imprimirGramatica(g);
-
-        g.converterParaChomsky();
+        string message = "\n";
         
-        cout << "GRAMATICA NA FORMA NORMAL DE CHOMSKY \n\n";
+        int opt = 0;
+        
+        do {
+            
+            system("clear");
 
-        imprimirGramatica(g);
+            cout << endl;
+                        
+            if(seq.size() == 0){
+                cout << "\n <--- GRAMATICA ATUAL ---> \n" << endl;
+            } else if(seq[seq.size() - 1] == 1) {
+                cout << "\n <--- GRAMATICA SIMPLIFICADA ---> \n" << endl;
+            } else if(seq[seq.size() - 1] == 2) {
+                cout << "\n <--- GRAMATICA NA FORMA NORMAL DE CHOMSKY ---> \n" << endl;
+            }
 
-        cout << " Insira o Tamanho da Palavra: ";
-        int n; cin >> n;
+            imprimirGramatica(g);
 
-        std:vector<Simbolo> simbols(n);
+            cout << "\n<--- OPÇÕES --->\n" << endl;
 
-        cout << " Insira a Palavra (com espaçamento entre simbolos): ";
-        for(int i = 0; i < n; i++){
-            cin >> simbols[i];
-        }
+            cout << "1 - SIMPLIFICAR GRAMÁTICA" << endl;
+            cout << "2 - CONVERTER PARA CHOMSKY" << endl;
+            cout << "3 - TESTAR PALAVRA" << endl;
+            cout << endl;
+            cout << "0 - SAIR" << endl;
+            
+            cout << message << endl;
 
-        executarCYK(g, simbols);
+            cout << "\nInsira uma Opção >> ";
+            cin >> opt;
+
+            switch(opt){
+
+                case 1:
+                    /* Simplificar Gramática */
+                
+                    if(seq.size() != 0){
+                        message = "\nGramática já está Simplificada.";
+                        break;
+                    }
+
+                    message = "\n";
+
+                    g.simplificar();
+                    seq.push_back(1);
+
+                break;
+
+                case 2:
+                    /* Converter para Chomsky */
+
+                    if(seq.size() != 0 && seq[seq.size() - 1] == 2){
+                        message = "\nA Gramática já está na Forma Normal de Chomsky.";
+                        break;
+                    }
+
+                    if(seq.size() == 0 || seq[seq.size() - 1] != 1){
+                        message = "\nImpossível converter para Chomsky. Simplifique a Gramática Primeiro.";
+                        break;
+                    }
+
+                    message = "\n";
+
+                    g.converterParaChomsky();
+                    seq.push_back(2);
+
+                break;
+
+                case 3: {
+                    /* Testar Palavra com CYK */
+
+                    if(seq.size() == 0 || seq[seq.size() - 1] != 2){
+                        message = "\nImpossível Testar Palavra. Converta para Chomsky Primeiro.";
+                        break;
+                    }
+
+                    message = "\n";
+
+                    cout << "\nInsira o Tamanho da Palavra: ";
+                    int n; cin >> n;
+
+                    vector<Simbolo> simbols(n);
+
+                    cout << "\nInsira a Palavra (com espaçamento entre simbolos): ";
+                    
+                    for(int i = 0; i < n; i++){
+                        cin >> simbols[i];
+                    }
+
+                    executarCYK(g, simbols);
+
+                    cout << "\nPressione 1 para CONTINUAR...";
+                    int a; cin >> a;
+                }
+                break;
+
+                case 0:
+                    /* SAIR */
+                    return 0;
+                break;
+            
+                default:
+                    message = "\nOpção Inválida.";
+                break;
+            }
+
+
+        } while(opt != 0);
     
     } catch (const ErroLeituraGLC& e){
         

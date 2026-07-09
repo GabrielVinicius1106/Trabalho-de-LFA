@@ -2,20 +2,15 @@
 a
 b
 c
-6
+4
 S
 A
 B
 C
-D
-E
 S
-8
-S A
-S a B b
-A c A
-A &
-B C
-C b
-D a D
-E a c
+5
+S a A a
+S b B b
+A a
+A S
+C c
