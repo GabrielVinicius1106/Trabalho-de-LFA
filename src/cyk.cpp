@@ -60,6 +60,10 @@ void executarCYK(const Gramatica &g, const std::vector<Simbolo> &palavra) {
 
     std::cout << "\n================ TABELA CYK ================\n";
 
+    std::set<Simbolo> subpalavrasGeradas;
+
+    std::cout << "Tamanho da Palavra: " << n << "\n";
+
     // Imprime a Matriz Triangular
     for(int L = n; L >= 1; --L){
         std::cout << "L=" << L << "\t| ";
@@ -70,10 +74,37 @@ void executarCYK(const Gramatica &g, const std::vector<Simbolo> &palavra) {
             } else {
                 auto it = tabela[L][S].begin();
                 std::cout << *it;
+
+                // Define uma Subpalavra. Adicionar a Lista de Subpalavras
+                if(tabela[L][S].find(g.simboloInicial) != tabela[L][S].end()){
+
+                    std::string subpalavra = "";
+
+                    for(int i = S; i < S + L; i++){
+                        subpalavra += palavra[i];
+                    }
+
+                    subpalavrasGeradas.insert(subpalavra);
+
+
+                }
+
                 ++it;
                 while(it != tabela[L][S].end()){
                     std::cout << ", " << *it;
                     ++it;
+
+                    // Define uma Subpalavra. Adicionar a Lista de Subpalavras
+                    if(tabela[L][S].find(g.simboloInicial) != tabela[L][S].end()){
+
+                        std::string subpalavra = "";
+
+                        for(int i = S; i < S + L; i++){
+                            subpalavra += palavra[i];
+                        }
+
+                        subpalavrasGeradas.insert(subpalavra);
+                    }
                 }
             }
             std::cout << "}\t";
@@ -88,6 +119,17 @@ void executarCYK(const Gramatica &g, const std::vector<Simbolo> &palavra) {
     }
 
     std::cout << "\n============================================\n";
+
+    // Quantidade de Subpalavras
+    std::cout << "Qntd de Subpalavras Geradas: " << subpalavrasGeradas.size() << std::endl;
+
+    std::cout << "Subpalavras Geradas: \n";
+
+    for(auto x : subpalavrasGeradas){
+        std::cout << " - " << x << "\n";
+    }
+
+    std::cout << "\n";
 
     // Verificar se Símbolo Inicial está na RAIZ
     bool aceita = tabela[n][0].find(g.simboloInicial) != tabela[n][0].end();

@@ -1,16 +1,9 @@
-3
+2
 a
 b
-c
-4
+1
 S
-A
-B
-C
 S
-5
-S a A a
-S b B b
-A a
-A S
-C c
+2
+S a S b
+S &
